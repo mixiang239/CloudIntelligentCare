@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient"
+    android:fillViewport="true">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- 当前状态卡片 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="1dp"
+            app:strokeColor="@color/green_200"
+            app:strokeWidth="2dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="18dp">
+
+                <!--守护图标-->
+                <ImageView
+                    android:id="@+id/ic_shield"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/common_ic_shield"
+                    android:background="@drawable/bg_translucent_green"
+                    app:layout_constraintTop_toTopOf="@id/text_care_status"
+                    app:layout_constraintBottom_toBottomOf="@id/text_running_status"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <!-- 监护状态文字 -->
+                <TextView
+                    android:id="@+id/text_care_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="监护状态"
+                    android:textColor="@color/gray_800"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/ic_shield"
+                    android:layout_marginStart="8dp"
+                    />
+
+                <!--运行状态文字-->
+                <TextView
+                    android:id="@+id/text_running_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="正常运行中"
+                    android:textColor="@color/green_600"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="@id/text_care_status"
+                    app:layout_constraintTop_toBottomOf="@id/text_care_status"
+                    />
+
+                <!--绿色指示点-->
+                <View
+                    android:id="@+id/view_green_dot"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:background="@drawable/ic_status_indicator"
+                    app:layout_constraintTop_toTopOf="@id/ic_shield"
+                    app:layout_constraintBottom_toBottomOf="@id/ic_shield"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+                <!-- 手机状态 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layout_phone_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/ic_shield"
+                    android:layout_marginTop="16dp"
+                    >
+
+                    <!--电量卡片-->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_battery"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@null"
+                        app:strokeWidth="0dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/card_network"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp"
+                            android:background="@drawable/bg_green_50">
+
+                            <ImageView
+                                android:id="@+id/ic_battery"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="4dp"
+                                android:src="@drawable/ic_battery"
+                                app:tint="@color/green_600"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                />
+
+                            <TextView
+                                android:id="@+id/text_battery"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="电量"
+                                android:textColor="@color/gray_600"
+                                android:textSize="14sp"
+                                app:layout_constraintTop_toBottomOf="@id/ic_battery"
+                                app:layout_constraintStart_toStartOf="@id/ic_battery"
+                                app:layout_constraintEnd_toEndOf="@id/ic_battery"
+                                android:layout_marginTop="4dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/text_battery_percentage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dp"
+                                android:text="85%"
+                                android:textColor="@color/gray_900"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:layout_constraintTop_toBottomOf="@id/text_battery"
+                                app:layout_constraintStart_toStartOf="@id/text_battery"
+                                app:layout_constraintEnd_toEndOf="@id/text_battery"
+                                />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!--网络卡片-->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_network"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/gray_200"
+                        app:strokeWidth="0dp"
+                        app:layout_constraintTop_toTopOf="@id/card_battery"
+                        app:layout_constraintStart_toEndOf="@id/card_battery"
+                        app:layout_constraintEnd_toStartOf="@id/card_location"
+                        app:layout_constraintBottom_toBottomOf="@id/card_battery"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp"
+                            android:background="@drawable/bg_blue_50">
+
+                            <!--图标-->
+                            <ImageView
+                                android:id="@+id/ic_network"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="4dp"
+                                android:src="@drawable/ic_wifi"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                />
+
+                            <TextView
+                                android:id="@+id/text_network"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="网络"
+                                android:textColor="@color/gray_600"
+                                android:textSize="14sp"
+                                app:layout_constraintTop_toBottomOf="@id/ic_network"
+                                app:layout_constraintStart_toStartOf="@id/ic_network"
+                                app:layout_constraintEnd_toEndOf="@id/ic_network"
+                                android:layout_marginTop="4dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/text_network_status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dp"
+                                android:text="良好"
+                                android:textColor="@color/gray_900"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:layout_constraintTop_toBottomOf="@id/text_network"
+                                app:layout_constraintStart_toStartOf="@id/text_network"
+                                app:layout_constraintEnd_toEndOf="@id/text_network"
+                                />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!--定位卡片-->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_location"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:cardCornerRadius="16dp"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@null"
+                        app:strokeWidth="0dp"
+                        app:layout_constraintTop_toTopOf="@id/card_network"
+                        app:layout_constraintStart_toEndOf="@id/card_network"
+                        app:layout_constraintBottom_toBottomOf="@id/card_network"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:padding="12dp"
+                            android:background="@drawable/bg_purple_50">
+
+                            <ImageView
+                                android:id="@+id/ic_location"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:layout_gravity="center"
+                                android:layout_marginBottom="4dp"
+                                android:src="@drawable/ic_location"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                />
+
+                            <TextView
+                                android:id="@+id/text_location"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:text="定位"
+                                android:textColor="@color/gray_600"
+                                android:textSize="14sp"
+                                app:layout_constraintTop_toBottomOf="@id/ic_location"
+                                app:layout_constraintStart_toStartOf="@id/ic_location"
+                                app:layout_constraintEnd_toEndOf="@id/ic_location"
+                                android:layout_marginTop="4dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/text_location_switch"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginTop="4dp"
+                                android:text="开启"
+                                android:textColor="@color/gray_900"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                app:layout_constraintTop_toBottomOf="@id/text_location"
+                                app:layout_constraintStart_toStartOf="@id/text_location"
+                                app:layout_constraintEnd_toEndOf="@id/text_location"
+                                />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </com.google.android.material.card.MaterialCardView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 紧急呼救按钮 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_emergency_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:layout_constraintTop_toBottomOf="@id/card_status"
+            app:layout_constraintStart_toStartOf="@id/card_status"
+            app:layout_constraintEnd_toEndOf="@id/card_status"
+            android:layout_marginTop="@dimen/cardMarginTop"
+            >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/bg_gradient_red"
+                android:padding="32dp"
+                >
+
+                <ImageView
+                    android:id="@+id/ic_SOS"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_ring"
+                    android:background="@drawable/bg_gradient_white"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/text_SOS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="一键呼救"
+                    android:textColor="@color/white"
+                    android:textSize="32sp"
+                    app:layout_constraintTop_toBottomOf="@id/ic_SOS"
+                    app:layout_constraintStart_toStartOf="@id/ic_SOS"
+                    app:layout_constraintEnd_toEndOf="@id/ic_SOS"
+                    android:layout_marginTop="2dp"
+                    />
+
+                <TextView
+                    android:id="@+id/text_SOS_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="长按3秒启动紧急呼叫"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/text_SOS"
+                    app:layout_constraintStart_toStartOf="@id/text_SOS"
+                    app:layout_constraintEnd_toEndOf="@id/text_SOS"
+                    android:layout_marginTop="4dp"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- 快捷操作 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/card_quick_actions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/card_emergency_button"
+            app:layout_constraintStart_toStartOf="@id/card_emergency_button"
+            app:layout_constraintEnd_toEndOf="@id/card_emergency_button"
+            android:layout_marginTop="@dimen/cardMarginTop"
+            >
+
+            <!-- 心率卡片 -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/heart_rate_card"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/gray_200"
+                app:strokeWidth="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/card_steps"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="2dp"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    >
+
+                    <ImageView
+                        android:id="@+id/ic_heart_rate"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/ic_heart"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginStart="16dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/text_heart_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="心率"
+                        android:textColor="@color/gray_600"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toTopOf="@id/ic_heart_rate"
+                        app:layout_constraintStart_toEndOf="@id/ic_heart_rate"
+                        app:layout_constraintBottom_toBottomOf="@id/ic_heart_rate"
+                        android:layout_marginStart="8dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/text_heart_rate_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="72"
+                        android:textColor="@color/gray_900"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toBottomOf="@id/ic_heart_rate"
+                        app:layout_constraintStart_toStartOf="@id/ic_heart_rate"
+                        />
+
+                    <TextView
+                        android:id="@+id/text_heart_rate_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="次/分钟"
+                        android:textColor="@color/gray_500"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@id/text_heart_rate_value"
+                        app:layout_constraintStart_toStartOf="@id/text_heart_rate_value"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="14dp"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!--步数卡片-->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_steps"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/gray_200"
+                app:strokeWidth="0dp"
+                app:layout_constraintStart_toEndOf="@id/heart_rate_card"
+                app:layout_constraintTop_toTopOf="@id/heart_rate_card"
+                app:layout_constraintBottom_toBottomOf="@id/heart_rate_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="6dp"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    >
+
+                    <ImageView
+                        android:id="@+id/ic_steps"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/ic_steps"
+                        app:tint="@color/blue_500"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginStart="16dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/text_today_steps"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="今日步数"
+                        android:textColor="@color/gray_600"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toTopOf="@id/ic_steps"
+                        app:layout_constraintStart_toEndOf="@id/ic_steps"
+                        app:layout_constraintBottom_toBottomOf="@id/ic_steps"
+                        android:layout_marginStart="8dp"
+                        />
+
+                    <TextView
+                        android:id="@+id/text_steps_value"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="3,245"
+                        android:textColor="@color/gray_900"
+                        android:textSize="28sp"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toBottomOf="@id/ic_steps"
+                        app:layout_constraintStart_toStartOf="@id/ic_steps"
+                        />
+
+                    <TextView
+                        android:id="@+id/text_steps_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="步"
+                        android:textColor="@color/gray_500"
+                        android:textSize="16sp"
+                        app:layout_constraintTop_toBottomOf="@id/text_steps_value"
+                        app:layout_constraintStart_toStartOf="@id/text_steps_value"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginBottom="14dp"
+                        />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <!-- 最近活动 -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_recent_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@null"
+            app:strokeWidth="0dp"
+            app:layout_constraintTop_toBottomOf="@id/card_quick_actions"
+            app:layout_constraintStart_toStartOf="@id/card_quick_actions"
+            app:layout_constraintEnd_toEndOf="@id/card_quick_actions"
+            android:layout_marginTop="@dimen/cardMarginTop"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:background="@color/white"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="最近活动"
+                    android:textColor="@color/gray_800"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    >
+
+                    <!--散步-->
+                    <LinearLayout
+                        android:id="@+id/layout_walk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="12dp"
+                        android:orientation="horizontal"
+                        android:padding="12dp"
+                        android:background="@drawable/bg_green_50"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        >
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/ic_dot_green" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="早晨散步 30 分钟"
+                                android:textColor="@color/gray_700"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="今天 07:30"
+                                android:textColor="@color/gray_500"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!--测血压-->
+                    <LinearLayout
+                        android:id="@+id/layout_BP_measurement"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="12dp"
+                        android:background="@drawable/bg_blue_50"
+                        app:layout_constraintTop_toBottomOf="@id/layout_walk"
+                        app:layout_constraintStart_toStartOf="@id/layout_walk"
+                        app:layout_constraintEnd_toEndOf="@id/layout_walk"
+                        android:layout_marginTop="12dp"
+                        >
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/ic_dot_blue" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="测量血压 120/80"
+                                android:textColor="@color/gray_700"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="今天 09:15"
+                                android:textColor="@color/gray_500"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <!--服药提醒-->
+                    <LinearLayout
+                        android:id="@+id/layout_med_reminder"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="12dp"
+                        android:background="@drawable/bg_purple_50"
+                        app:layout_constraintTop_toBottomOf="@id/layout_BP_measurement"
+                        android:layout_marginTop="12dp">
+
+                        <View
+                            android:layout_width="8dp"
+                            android:layout_height="8dp"
+                            android:layout_gravity="center"
+                            android:layout_marginEnd="12dp"
+                            android:background="@drawable/ic_dot_purple" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="服药提醒已完成"
+                                android:textColor="@color/gray_700"
+                                android:textSize="16sp" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="4dp"
+                                android:text="今天 12:00"
+                                android:textColor="@color/gray_500"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--天气卡片-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_weather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@null"
+            app:strokeWidth="0dp"
+            app:layout_constraintTop_toBottomOf="@id/card_recent_activity"
+            app:layout_constraintStart_toStartOf="@id/card_recent_activity"
+            app:layout_constraintEnd_toEndOf="@id/card_recent_activity"
+            android:layout_marginTop="@dimen/cardMarginTop"
+            >
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_gradient_bule"
+                android:padding="20dp"
+                >
+
+                <!--今日天气四个字-->
+                <TextView
+                    android:id="@+id/text_today_weather"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="今日天气"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    />
+
+                <!--具体温度数值-->
+                <TextView
+                    android:id="@+id/text_temperature"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="22°C"
+                    android:textColor="@color/white"
+                    android:textSize="36sp"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@id/text_today_weather"
+                    app:layout_constraintStart_toStartOf="@id/text_today_weather"
+                    />
+
+                <TextView
+                    android:id="@+id/text_weather_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="晴转多云 适合出行"
+                    android:textColor="@color/white_90"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/text_temperature"
+                    app:layout_constraintStart_toStartOf="@id/text_temperature"
+                    />
+
+                <TextView
+                    android:id="@+id/text_weather_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="☀️"
+                    android:textColor="@color/white"
+                    android:textSize="48sp"
+                    app:layout_constraintTop_toTopOf="@id/text_today_weather"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--建议卡片-->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_tips"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="2dp"
+            app:strokeColor="@color/blue_200"
+            app:strokeWidth="1dp"
+            app:layout_constraintTop_toBottomOf="@id/card_weather"
+            app:layout_constraintStart_toStartOf="@id/card_weather"
+            app:layout_constraintEnd_toEndOf="@id/card_weather"
+            android:layout_marginTop="@dimen/cardMarginTop"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F0F6FE"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="💡 温馨提示"
+                    android:textColor="@color/blue_800"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="建议您保持手机电量充足，确保跌倒检测功能正常工作。今天天气不错，可以出门散步。"
+                    android:textColor="@color/gray_700"
+                    android:textSize="18sp"
+                    android:lineSpacingExtra="4dp" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

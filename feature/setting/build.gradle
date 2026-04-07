@@ -1,0 +1,73 @@
+def isModule = project.hasProperty('isModule') && project.property('isModule').toBoolean()
+
+if (isModule) {
+    apply plugin: 'com.android.application'
+} else {
+    apply plugin: 'com.android.library'
+}
+
+android {
+    namespace 'com.ggg.setting'
+    compileSdk libs.versions.compileSdk.get().toInteger()
+
+    defaultConfig {
+        if (isModule) {
+            applicationId "com.ggg.setting"
+        }
+
+        minSdk libs.versions.minSdk.get().toInteger()
+        targetSdk libs.versions.targetSdk.get().toInteger()
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile isModule ?
+                    'src/main/manifest/AndroidManifest.xml' :
+                    'src/main/AndroidManifest.xml'
+
+            if (!isModule) {
+                java.exclude 'debug/**'
+            }
+        }
+    }
+
+    resourcePrefix "setting_"
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    implementation project(':core:common')
+    implementation project(':core:data')
+
+    api libs.arouter.api
+    annotationProcessor libs.arouter.compiler
+
+    implementation libs.appcompat
+    implementation libs.material
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}
