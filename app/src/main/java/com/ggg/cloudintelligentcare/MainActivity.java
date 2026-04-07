@@ -23,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.alibaba.android.arouter.launcher.ARouter;
+import com.ggg.alarm.fragment.AlarmFragment;
 import com.ggg.cloudintelligentcare.databinding.ActivityMainBinding;
 import com.ggg.common.Interface.IHostActivity;
 import com.ggg.common.RouterPath;
@@ -30,6 +31,7 @@ import com.ggg.emergency.fragment.EmergencyFragment;
 import com.ggg.cloudintelligentcare.R;
 import com.ggg.health.fragment.HealthFragment;
 import com.ggg.home.fragment.HomeFragment;
+import com.ggg.network.AlarmPlayer;
 import com.ggg.record.fragment.RecordFragment;
 import com.ggg.setting.fragment.SettingsFragment;
 
@@ -38,15 +40,22 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 @Route(path = RouterPath.APP_MAIN_PATH)
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener, IHostActivity {
 
+    private static final String TAG = "MainActivity";
     private FragmentManager fragmentManager;
     private HomeFragment homeFragment;
     private EmergencyFragment emergencyFragment;
     private HealthFragment healthFragment;
     private RecordFragment historyFragment;
     private SettingsFragment settingsFragment;
+    private AlarmFragment alarmFragment;
 
     // ViewBinding
     private ActivityMainBinding binding;
+
+    // 警报播放器（集中管理）
+    private AlarmPlayer alarmPlayer;
+    private int currentAlarmSequence = 0;
+    private IHostActivity.AlarmCallback alarmCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         BottomNavigationView bottomNav = binding.bottomNavigation;
         bottomNav.setOnNavigationItemSelectedListener(this);
 
+        // 初始化警报播放器
+        initAlarmPlayer();
+
         // 初始化各个碎片
         if (savedInstanceState == null) {
             initFragments();
@@ -86,7 +98,39 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             healthFragment = (HealthFragment) fragmentManager.findFragmentByTag("health");
             historyFragment = (RecordFragment) fragmentManager.findFragmentByTag("history");
             settingsFragment = (SettingsFragment) fragmentManager.findFragmentByTag("settings");
+            alarmFragment = (AlarmFragment) fragmentManager.findFragmentByTag("alarm");
         }
+    }
+
+    /**
+     * 初始化警报播放器
+     */
+    private void initAlarmPlayer() {
+        alarmPlayer = new AlarmPlayer(this);
+        alarmPlayer.setCallback(new AlarmPlayer.AlarmCallback() {
+            @Override
+            public void onAlarmStarted() {
+                if (alarmCallback != null) {
+                    alarmCallback.onAlarmStarted();
+                }
+            }
+
+            @Override
+            public void onAlarmStopped() {
+                if (alarmCallback != null) {
+                    alarmCallback.onAlarmStopped();
+                }
+            }
+
+            @Override
+            public void onAlarmError(String error) {
+                if (alarmCallback != null) {
+                    alarmCallback.onAlarmError(error);
+                }
+            }
+        });
+        // 设置警报音资源
+        alarmPlayer.setAudioResourceByName("warning");
     }
 
     // 初始化各个碎片
@@ -102,6 +146,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         historyFragment = (RecordFragment) ((fragment = (Fragment) ARouter.getInstance().build(RouterPath.RECORD_PATH).navigation()) != null ? fragment : new RecordFragment());
         fragment = null;
         settingsFragment = (SettingsFragment) ((fragment = (Fragment) ARouter.getInstance().build(RouterPath.SETTING_PATH).navigation()) != null ? fragment : new SettingsFragment());
+        fragment = null;
+        alarmFragment = (AlarmFragment) ((fragment = (Fragment) ARouter.getInstance().build(RouterPath.ALARM_PATH).navigation()) != null ? fragment : new AlarmFragment());
         fragment = null;
     }
 
@@ -169,6 +215,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         bottomNav.setSelectedItemId(R.id.nav_settings);
     }
 
+    // ==================== IHostActivity 警报控制实现 ====================
+
     @Override
     public void navigateTo(String target) {
         ARouter.getInstance()
@@ -179,5 +227,76 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public Context getHostActivity() {
         return this;
+    }
+
+    /**
+     * 开始警报
+     * @param sequence 警报序列号
+     */
+    @Override
+    public void startAlarm(int sequence) {
+        this.currentAlarmSequence = sequence;
+        
+        if (alarmPlayer != null) {
+            alarmPlayer.play();
+        }
+        
+        // 自动跳转到警报页面
+        if (alarmFragment == null) {
+            alarmFragment = new AlarmFragment();
+        }
+        
+        runOnUiThread(() -> {
+            loadFragment(alarmFragment, "alarm", false);
+            // 隐藏底部导航栏
+            binding.bottomNavigation.setVisibility(View.GONE);
+        });
+    }
+
+    /**
+     * 停止警报
+     */
+    @Override
+    public void stopAlarm() {
+        if (alarmPlayer != null) {
+            alarmPlayer.stop();
+        }
+        
+        // 返回首页
+        runOnUiThread(() -> {
+            if (homeFragment == null) {
+                homeFragment = new HomeFragment();
+            }
+            loadFragment(homeFragment, "home", false);
+            // 显示底部导航栏
+            binding.bottomNavigation.setVisibility(View.VISIBLE);
+            // 选中首页
+            binding.bottomNavigation.setSelectedItemId(R.id.nav_home);
+        });
+    }
+
+    /**
+     * 检查警报是否正在播放
+     */
+    @Override
+    public boolean isAlarmPlaying() {
+        return alarmPlayer != null && alarmPlayer.isPlaying();
+    }
+
+    /**
+     * 设置警报回调
+     */
+    @Override
+    public void setAlarmCallback(IHostActivity.AlarmCallback callback) {
+        this.alarmCallback = callback;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (alarmPlayer != null) {
+            alarmPlayer.release();
+            alarmPlayer = null;
+        }
     }
 }

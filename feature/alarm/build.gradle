@@ -7,13 +7,14 @@ if (isModule) {
 }
 
 android {
-    namespace 'com.ggg.emergency'
+    namespace 'com.ggg.alarm'
     compileSdk libs.versions.compileSdk.get().toInteger()
 
     defaultConfig {
         if (isModule) {
-            applicationId 'com.ggg.emergency'
+            applicationId 'com.ggg.alarm'
         }
+
         minSdk libs.versions.minSdk.get().toInteger()
         targetSdk libs.versions.targetSdk.get().toInteger()
 
@@ -27,23 +28,15 @@ android {
         }
     }
 
-    buildFeatures {
-        viewBinding true
-    }
-
     sourceSets {
         main {
-            manifest.srcFile isModule ?
-                    'src/main/manifest/AndroidManifest.xml' :
-                    'src/main/AndroidManifest.xml'
+            manifest.srcFile 'src/main/AndroidManifest.xml'
 
             if (!isModule) {
                 java.exclude 'debug/**'
             }
         }
     }
-
-    resourcePrefix "emergency_"
 
     buildTypes {
         release {
@@ -59,7 +52,6 @@ android {
 
 dependencies {
     implementation project(':core:common')
-    implementation project(':core:data')
     implementation project(':core:network')
 
     api libs.arouter.api

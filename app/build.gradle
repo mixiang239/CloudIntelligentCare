@@ -43,11 +43,13 @@ android {
 
 dependencies {
     implementation project(':core:common')
+    implementation project(':core:network')
     implementation project(':feature:home')
     implementation project(':feature:emergency')
     implementation project(':feature:health')
     implementation project(':feature:record')
     implementation project(':feature:setting')
+    implementation project(':feature:alarm')
 
     api libs.arouter.api
     annotationProcessor libs.arouter.compiler
