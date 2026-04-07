@@ -56,6 +56,7 @@ android {
 
 dependencies {
     implementation project(':core:common')
+    implementation project(':core:network')
 
     api libs.arouter.api
     annotationProcessor libs.arouter.compiler
