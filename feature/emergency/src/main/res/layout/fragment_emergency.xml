@@ -53,27 +53,66 @@
                     android:textColor="@color/white_90"
                     android:textSize="24sp" />
 
-                <com.google.android.material.button.MaterialButton
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/button_call"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:padding="24dp"
-                    android:text="拨打求救电话"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    app:cornerRadius="20dp"
-                    app:icon="@drawable/ic_phone"
-                    app:iconPadding="0dp"
-                    android:backgroundTint="@color/white"
+                    app:cardCornerRadius="20dp"
+                    app:cardElevation="0dp"
                     app:strokeColor="@null"
                     app:strokeWidth="0dp"
-                    android:textColor="@color/red_600"
-                    app:iconTint="@color/red_600"
-                    android:textAllCaps="false"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    />
+                    android:layout_marginTop="24dp"
+                    >
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:padding="24dp"
+                        >
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            >
+
+                            <ImageView
+                                android:id="@+id/ic_emergency_call"
+                                android:layout_width="28dp"
+                                android:layout_height="28dp"
+                                android:src="@drawable/ic_phone"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                android:tint="@color/red_600"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/text_emergency_call"
+                                android:layout_marginEnd="6dp"
+                                />
+
+                            <TextView
+                                android:id="@+id/text_emergency_call"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="拨打求救电话"
+                                 android:textSize="24sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/red_600"
+                                app:layout_constraintTop_toTopOf="@+id/ic_emergency_call"
+                                app:layout_constraintBottom_toBottomOf="@+id/ic_emergency_call"
+                                app:layout_constraintStart_toEndOf="@+id/ic_emergency_call"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                android:layout_marginStart="6dp"
+                                />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </com.google.android.material.card.MaterialCardView>
             </LinearLayout>
 
         </com.google.android.material.card.MaterialCardView>

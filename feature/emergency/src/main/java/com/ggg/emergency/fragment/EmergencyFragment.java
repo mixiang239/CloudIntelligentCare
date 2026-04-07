@@ -24,6 +24,7 @@ import com.ggg.data.model.Contact;
 import com.ggg.emergency.R;
 import com.ggg.emergency.databinding.FragmentEmergencyBinding;
 import com.ggg.emergency.fragment.Adapter.EmerContactsAdapter;
+import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,7 +75,7 @@ public class EmergencyFragment extends Fragment {
         binding.recyclerviewEmerContacts.setAdapter(new EmerContactsAdapter(data));
 
         // Emergency call button
-        Button callButton = binding.buttonCall;
+        MaterialCardView callButton = binding.buttonCall;
         callButton.setOnClickListener(v -> {
             // Make emergency call
             makeEmergencyCall("120");
