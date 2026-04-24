@@ -75,8 +75,8 @@ public class RecordFragment extends Fragment {
         // 准备数据
         List<Record> data = new ArrayList<>();
         data.add(new Record(R.drawable.ic_warning, "#DA6F00", "轻微异常检测", "警告", "检测到轻微摇晃，已自动记录", "今天 10:23"));
-        data.add(new Record(R.drawable.ic_warning, "#DA6F00", "轻微异常检测", "警告", "检测到轻微摇晃，已自动记录", "今天 10:23"));
-        data.add(new Record(R.drawable.ic_warning, "#DA6F00", "轻微异常检测", "警告", "检测到轻微摇晃，已自动记录", "今天 10:23"));
+        data.add(new Record(R.drawable.ic_check, "#37BB68", "健康检测完成", "正常", "心率、血压均正常", "今天 08:15"));
+        data.add(new Record(R.drawable.ic_warning, "#155DFC", "跌倒警报已解除", "已解除", "用户确认安全，警报已取消", "昨天 16:45"));
         data.add(new Record(R.drawable.ic_warning, "#DA6F00", "轻微异常检测", "警告", "检测到轻微摇晃，已自动记录", "今天 10:23"));
         data.add(new Record(R.drawable.ic_warning, "#DA6F00", "轻微异常检测", "警告", "检测到轻微摇晃，已自动记录", "今天 10:23"));
         data.add(new Record(R.drawable.ic_warning, "#DA6F00", "轻微异常检测", "警告", "检测到轻微摇晃，已自动记录", "今天 10:23"));
